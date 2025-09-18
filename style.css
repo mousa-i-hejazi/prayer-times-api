@@ -2,61 +2,79 @@
   margin: 0;
   padding: 0;
   direction: rtl;
+  box-sizing: border-box;
 }
+
+body {
+  min-height: 100vh;
+  font-family: 'Arial', sans-serif;
+  background-color: #f5f5f5;
+}
+
 .section-1 {
-  background-color: #644b4d;
-  height: 70vh;
+  background: linear-gradient(135deg, #8b6f73 0%, #644b4d 100%);
   display: flex;
+  padding: clamp(50px, 8vw, 80px) clamp(15px, 3vw, 20px);
+  min-height: 30vh;
   justify-content: center;
   align-items: center;
   text-align: center;
   position: relative;
 }
+
 .section-1 h1 {
-  color: #cdaeb0;
-  font-size: 70px;
+  color: #ffffff;
+  font-size: clamp(32px, 6vw, 48px);
+  font-weight: 300;
+  margin-bottom: 15px;
 }
 .section-1 p {
-  color: #cdaeb0;
-  font-size: 30px;
+  color: #f0f0f0;
+  font-size: clamp(16px, 4vw, 28px);
+  font-weight: 300;
   margin-top: 10px;
 }
+
 .section-1 img {
   position: absolute;
-  right: 0;
+  right: 30px;
   bottom: 0;
+  max-width: clamp(200px, 25vw, 400px);
+  opacity: 0.9;
 }
+
 .section-2 {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding-top: 50px;
+  background-color: #ffffff;
+  padding: clamp(30px, 5vw, 50px) 20px;
+  min-height: 25vh;
 }
+
 .section-2 h2 {
   color: #644b4d;
-  font-size: 40px;
-  margin-bottom: 50px;
+  font-size: clamp(22px, 4vw, 28px);
+  text-align: center;
+  margin-bottom: clamp(25px, 4vw, 40px);
+  font-weight: 400;
 }
+
 .section-2 form {
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  gap: 20px;
-  margin-bottom: 50px;
+  gap: clamp(15px, 3vw, 20px);
+  margin-bottom: clamp(30px, 5vw, 50px);
 }
 .section-2 select {
-  padding: 10px;
-  font-size: 20px;
+  padding: clamp(8px, 2vw, 10px);
+  font-size: clamp(16px, 2.5vw, 20px);
   border: 2px solid #b3888c;
   border-radius: 5px;
   cursor: pointer;
 }
 .section-2 button {
-  padding: 10px 20px;
-  font-size: 20px;
+  padding: clamp(8px, 2vw, 10px) clamp(15px, 3vw, 20px);
+  font-size: clamp(16px, 2.5vw, 20px);
   background-color: #b3888c;
   color: #fff;
   border: none;
@@ -73,22 +91,21 @@
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  padding: 50px 0;
 }
 .section-3 h2 {
   color: #644b4d;
-  font-size: 40px;
-  padding: 0 50px;
+  font-size: clamp(28px, 5vw, 40px);
+  padding: 0 clamp(20px, 4vw, 50px);
   text-align: right;
-  margin-bottom: 30px;
+  margin-bottom: clamp(20px, 3vw, 30px);
 }
 .section-3 .prayer-times {
   background-color: #b3888c59;
   display: flex;
   align-items: center;
   text-align: center;
-  padding: 0 100px;
-  gap: 10px;
+  padding: 0 clamp(50px, 8vw, 100px);
+  gap: clamp(8px, 2vw, 10px);
 }
 .section-3 .prayer-times div {
   width: 20%;
@@ -96,13 +113,13 @@
 }
 .prayer-times img {
   width: 100%;
-  height: 200px;
+  height: clamp(150px, 20vw, 200px);
   border-top-left-radius: 200px;
   border-top-right-radius: 200px;
 }
 .prayer-times div .content {
   background-color: #fff;
-  border: #b3888c solid 2px;
+  border: 2px solid #b3888c;
   border-top: 0;
   text-align: center;
   width: 98%;
@@ -110,9 +127,13 @@
 }
 .prayer-times h3 {
   color: #644b4d;
-  font-size: 25px;
-  padding: 50px;
+  font-size: clamp(20px, 3vw, 25px);
+  padding: clamp(20px, 4vw, 30px) clamp(30px, 6vw, 50px) clamp(8px, 1.5vw, 10px) clamp(30px, 6vw, 50px);
 }
-.hidden {
-  display: none;
+.prayer-times .time {
+  color: #644b4d;
+  font-size: clamp(18px, 2.8vw, 22px);
+  font-weight: bold;
+  padding: 0 clamp(30px, 6vw, 50px) clamp(20px, 4vw, 30px) clamp(30px, 6vw, 50px);
+  margin: 0;
 }
