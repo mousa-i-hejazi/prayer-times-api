@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main>
+      <section class="section-1">
+        <div><img src="images/mosque.png" alt="" /></div>
+        <div>
+          <h1>مواعيد الصلاة</h1>
+          <p>
+             ﴿إِنَّ الصَّلَاةَ كَانَتْ عَلَى الْمُؤْمِنِينَ كِتَابًا مَوْقُوتًا﴾
+          </p>
+        </div>
+      </section>
+      <section class="section-2">
+        <div>
+          <h2>متبقي على موعد الصلاة القادمة</h2>
+        </div>
+        <div>
+          <form id="prayer-times-form">
+            <select name="country" id="country-select">
+              <option>اختر القارة</option>
+            </select>
+            <select name="country" id="country-select">
+              <option>اختر الدولة</option>
+            </select>
+            <select name="country" id="country-select">
+              <option>اختر المدينة</option>
+            </select>
+            <select name="country" id="country-select">
+              <option>اختر طريقة الحساب</option>
+            </select>
+            <button type="submit" id="submit-btn">بحث</button>
+            <button id="reset-btn">اعادة تعيين</button>
+          </form>
+        </div>
+      </section>
+      <section class="section-3">
+        <div>
+          <h2>مواعيد الصلاة</h2>
+        </div>
+        <div class="prayer-times">
+          <div>
+            <img src="images/الفجر.jpg" alt="" />
+            <div class="content"><h3>الفجر</h3></div>
+          </div>
+          <div>
+            <img src="images/الظهر.jpg" alt="" />
+            <div class="content"><h3>الظهر</h3></div>
+          </div>
+          <div>
+            <img src="images/العصر.jpg" alt="" />
+            <div class="content"><h3>العصر</h3></div>
+          </div>
+          <div>
+            <img src="images/المغرب.jpg" alt="" />
+            <div class="content"><h3>المغرب</h3></div>
+          </div>
+          <div>
+            <img src="images/العشاء.jpg" alt="" />
+            <div class="content"><h3>العشاء</h3></div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="script.js"></script>
+  </body>
+</html>

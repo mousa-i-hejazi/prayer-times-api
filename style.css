@@ -1,0 +1,114 @@
+* {
+  margin: 0;
+  padding: 0;
+  direction: rtl;
+}
+.section-1 {
+  background-color: #644b4d;
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+.section-1 h1 {
+  color: #cdaeb0;
+  font-size: 70px;
+}
+.section-1 p {
+  color: #cdaeb0;
+  font-size: 30px;
+  margin-top: 10px;
+}
+.section-1 img {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+.section-2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding-top: 50px;
+}
+.section-2 h2 {
+  color: #644b4d;
+  font-size: 40px;
+  margin-bottom: 50px;
+}
+.section-2 form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+}
+.section-2 select {
+  padding: 10px;
+  font-size: 20px;
+  border: 2px solid #b3888c;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.section-2 button {
+  padding: 10px 20px;
+  font-size: 20px;
+  background-color: #b3888c;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.section-2 #reset-btn {
+  color: #b3888c;
+  background-color: #fff;
+  border: #b3888c solid 2px;
+}
+.section-3 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  padding: 50px 0;
+}
+.section-3 h2 {
+  color: #644b4d;
+  font-size: 40px;
+  padding: 0 50px;
+  text-align: right;
+  margin-bottom: 30px;
+}
+.section-3 .prayer-times {
+  background-color: #b3888c59;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: 0 100px;
+  gap: 10px;
+}
+.section-3 .prayer-times div {
+  width: 20%;
+  border-top: 0;
+}
+.prayer-times img {
+  width: 100%;
+  height: 200px;
+  border-top-left-radius: 200px;
+  border-top-right-radius: 200px;
+}
+.prayer-times div .content {
+  background-color: #fff;
+  border: #b3888c solid 2px;
+  border-top: 0;
+  text-align: center;
+  width: 98%;
+  margin-top: -20px;
+}
+.prayer-times h3 {
+  color: #644b4d;
+  font-size: 25px;
+  padding: 50px;
+}
