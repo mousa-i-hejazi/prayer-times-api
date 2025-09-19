@@ -7,7 +7,7 @@
 
 body {
   min-height: 100vh;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   background-color: #f5f5f5;
 }
 
@@ -72,6 +72,7 @@ body {
   border: 2px solid #b3888c;
   border-radius: 5px;
   cursor: pointer;
+  max-width: 200px;
 }
 .section-2 button {
   padding: clamp(8px, 2vw, 10px) clamp(15px, 3vw, 20px);
@@ -92,6 +93,7 @@ body {
   flex-direction: column;
   justify-content: center;
   text-align: center;
+  margin-bottom: 50px;
 }
 .section-3 h2 {
   color: #644b4d;
@@ -108,36 +110,42 @@ body {
   padding: 0 clamp(50px, 8vw, 100px);
   gap: clamp(8px, 2vw, 10px);
 }
-.section-3 .prayer-times div {
+.section-3 .prayer-times .prayer-item {
   width: 20%;
-  border-top: 0;
-}
-.prayer-times img {
-  width: 100%;
-  height: clamp(150px, 20vw, 200px);
-  border-top-left-radius: 200px;
-  border-top-right-radius: 200px;
-}
-.prayer-times div .content {
   background-color: #fff;
   border: 2px solid #b3888c;
-  border-top: 0;
-  text-align: center;
-  width: 100%;
-  margin-top: -20px;
+  padding: 20px 0;
+  border-top-left-radius: 100px;
+  border-top-right-radius: 100px;
+  max-height: 200px;
+}
+.section-3 .prayer-times i {
+  color: #644b4d;
 }
 .prayer-times h3 {
   color: #644b4d;
   font-size: clamp(20px, 3vw, 25px);
-  padding: clamp(20px, 4vw, 30px) clamp(30px, 6vw, 50px) clamp(8px, 1.5vw, 10px) clamp(30px, 6vw, 50px);
+  padding: clamp(20px, 4vw, 30px) clamp(30px, 6vw, 50px) clamp(8px, 1.5vw, 10px)
+    clamp(30px, 6vw, 50px);
 }
 .prayer-times .time {
   color: #644b4d;
   font-size: clamp(18px, 2.8vw, 22px);
   font-weight: bold;
-  padding: 0 clamp(30px, 6vw, 50px) clamp(20px, 4vw, 30px) clamp(30px, 6vw, 50px);
+  padding: 0 clamp(30px, 6vw, 50px) clamp(20px, 4vw, 30px)
+    clamp(30px, 6vw, 50px);
   margin: 0;
 }
 .hidden {
   display: none;
+}
+@media (max-width: 768px) {
+  .section-3 .prayer-times {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .section-3 .prayer-times .prayer-item {
+    width: 50%;
+  }
 }
