@@ -251,10 +251,10 @@ function startNextPrayer(timings) {
 
   function findNextPrayer() {
     const now = new Date();
-    for (let p of prayerOrder) {
-      const prayerTime = getPrayerDate(timings[p]);
+    for (let prayer of prayerOrder) {
+      const prayerTime = getPrayerDate(timings[prayer]);
       if (prayerTime > now) {
-        return { name: p, date: prayerTime };
+        return { name: prayer, date: prayerTime };
       }
     }
     // كل الصلوات خلصت → فجر بكرة
