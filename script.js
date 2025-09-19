@@ -190,6 +190,7 @@ form.addEventListener("submit", async (e) => {
     
     const prayerData = await fetchPrayerTimes(city, country, method);
     displayPrayerTimes(prayerData);
+    startNextPrayer(prayerData.timings);
     section3.classList.remove("hidden");
 
     
@@ -237,3 +238,51 @@ resetBtn.addEventListener("click", (e) => {
   document.getElementById('isha-time').textContent = '--:--';
   section3.classList.add("hidden")
 });
+
+function startNextPrayer(timings) {
+  const countdownEl = document.getElementById('next-prayer-countdown');
+  const prayerOrder = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+
+  function getPrayerDate(time) {
+    const [h, m] = time.split(':').map(Number);
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m);
+  }
+
+  function findNextPrayer() {
+    const now = new Date();
+    for (let p of prayerOrder) {
+      const prayerTime = getPrayerDate(timings[p]);
+      if (prayerTime > now) {
+        return { name: p, date: prayerTime };
+      }
+    }
+    // كل الصلوات خلصت → فجر بكرة
+    const tomorrowFajr = getPrayerDate(timings['Fajr']);
+    tomorrowFajr.setDate(tomorrowFajr.getDate() + 1);
+    return { name: 'Fajr', date: tomorrowFajr };
+  }
+
+  let interval = setInterval(() => {
+    const now = new Date();
+    const nextPrayer = findNextPrayer();
+    const diff = nextPrayer.date - now;
+
+    const hours = Math.floor(diff / 1000 / 60 / 60);
+    const minutes = Math.floor((diff / 1000 / 60) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    const arabicNames = {
+      Fajr: 'الفجر',
+      Dhuhr: 'الظهر',
+      Asr: 'العصر',
+      Maghrib: 'المغرب',
+      Isha: 'العشاء'
+    };
+
+    countdownEl.textContent =
+      ` ${arabicNames[nextPrayer.name]} ` +
+      `${hours} ساعة ${minutes} دقيقة ${seconds} ثانية`;
+  }, 1000);
+}
+
