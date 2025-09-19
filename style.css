@@ -137,3 +137,6 @@ body {
   padding: 0 clamp(30px, 6vw, 50px) clamp(20px, 4vw, 30px) clamp(30px, 6vw, 50px);
   margin: 0;
 }
+.hidden {
+  display: none;
+}
