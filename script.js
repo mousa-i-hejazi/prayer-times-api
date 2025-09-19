@@ -190,7 +190,7 @@ form.addEventListener("submit", async (e) => {
     
     const prayerData = await fetchPrayerTimes(city, country, method);
     displayPrayerTimes(prayerData);
-    
+    section3.classList.remove("hidden");
 
     
     // Restore original button text
@@ -235,5 +235,5 @@ resetBtn.addEventListener("click", (e) => {
   document.getElementById('asr-time').textContent = '--:--';
   document.getElementById('maghrib-time').textContent = '--:--';
   document.getElementById('isha-time').textContent = '--:--';
-  
+  section3.classList.add("hidden")
 });
