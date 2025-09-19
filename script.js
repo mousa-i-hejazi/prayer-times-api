@@ -152,9 +152,9 @@ function displayPrayerTimes(prayerData) {
   function formatTime(time24) {
     const [hours, minutes] = time24.split(':');
     const hour = parseInt(hours);
-    const ampm = hour >= 12 ? 'م' : 'ص';
+    const am_pm = hour >= 12 ? 'م' : 'ص';
     const displayHour = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
-    return `${displayHour}:${minutes} ${ampm}`;
+    return `${displayHour}:${minutes} ${am_pm}`;
   }
   
   // Display times in the appropriate elements
@@ -238,9 +238,9 @@ resetBtn.addEventListener("click", (e) => {
   document.getElementById('isha-time').textContent = '--:--';
   section3.classList.add("hidden")
 });
-
-function startNextPrayer(timings) {
-  const countdownEl = document.getElementById('next-prayer-countdown');
+//Next Prayer Countdown
+function startNextPrayer(timings) {// this function starts the countdown to the next prayer time
+  const countdown = document.getElementById('next-prayer-countdown');
   const prayerOrder = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
 
   function getPrayerDate(time) {
@@ -249,18 +249,18 @@ function startNextPrayer(timings) {
     return new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m);
   }
 
-  function findNextPrayer() {
+  function findNextPrayer() {// this function finds the next prayer time
     const now = new Date();
     for (let prayer of prayerOrder) {
       const prayerTime = getPrayerDate(timings[prayer]);
       if (prayerTime > now) {
-        return { name: prayer, date: prayerTime };
+        return { name: prayer, date: prayerTime, isToday: true };
       }
     }
-    // كل الصلوات خلصت → فجر بكرة
-    const tomorrowFajr = getPrayerDate(timings['Fajr']);
-    tomorrowFajr.setDate(tomorrowFajr.getDate() + 1);
-    return { name: 'Fajr', date: tomorrowFajr };
+   
+    const tomorrowPrayer = getPrayerDate(timings['Fajr']);
+    tomorrowPrayer.setDate(tomorrowPrayer.getDate() + 1);
+    return { name: 'Fajr', date: tomorrowPrayer, isToday: false };
   }
 
   let interval = setInterval(() => {
@@ -273,16 +273,19 @@ function startNextPrayer(timings) {
     const seconds = Math.floor((diff / 1000) % 60);
 
     const arabicNames = {
-      Fajr: 'الفجر',
-      Dhuhr: 'الظهر',
-      Asr: 'العصر',
-      Maghrib: 'المغرب',
-      Isha: 'العشاء'
+      Fajr: '(الفجر)',
+      Dhuhr: '(الظهر)',
+      Asr: '(العصر)',
+      Maghrib: '(المغرب)',
+      Isha: '(العشاء)'
     };
 
-    countdownEl.textContent =
-      ` ${arabicNames[nextPrayer.name]} ` +
-      `${hours} ساعة ${minutes} دقيقة ${seconds} ثانية`;
+    const nextPrayerDay = nextPrayer.isToday ? '' : ' غداً';//to indicate if the next prayer is tomorrow
+    
+    countdown.textContent =
+      ` موعد الصلاة القادمة ${arabicNames[(nextPrayer.name)]}  ` +
+      ` سيكون ${nextPrayerDay}` +
+      ` متبقي  ${hours} ساعة ${minutes} دقيقة ${seconds} ثانية`;
   }, 1000);
 }
 
