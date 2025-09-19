@@ -200,6 +200,7 @@ form.addEventListener("submit", async (e) => {
     // Restore original button text
     submitBtn.textContent = originalText;
     submitBtn.disabled = false;
+    saveSelections();
   } catch (error) {
     // Handle different types of errors
     let errorMessage = "حدث خطأ في جلب أوقات الصلاة. يرجى المحاولة مرة أخرى.";
@@ -243,13 +244,16 @@ resetBtn.addEventListener("click", (e) => {
   document.getElementById("asr-time").textContent = "--:--";
   document.getElementById("maghrib-time").textContent = "--:--";
   document.getElementById("isha-time").textContent = "--:--";
-  countdown.classList.add("hidden")
+  countdown.classList.add("hidden");
+
+  localStorage.removeItem("prayerSelections");
 });
 //Next Prayer Countdown
 
 const countdown = document.getElementById("next-prayer-countdown");
 
 function startNextPrayer(timings) {
+  countdown.innerHTML = `<option value="">Loading countdown...</option>`;
   // this function starts the countdown to the next prayer time
   const prayerOrder = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
 
@@ -299,3 +303,48 @@ function startNextPrayer(timings) {
       ` متبقي  ${hours} ساعة ${minutes} دقيقة ${seconds} ثانية`;
   }, 1000);
 }
+
+function saveSelections() {
+  const selections = {
+    continent: continentSelect.value,
+    country: countrySelect.value,
+    city: citySelect.value,
+    method: timeSelect.value,
+  };
+  localStorage.setItem("prayerSelections", JSON.stringify(selections));
+}
+document.addEventListener("DOMContentLoaded", async () => {
+  const saved = localStorage.getItem("prayerSelections");
+  if (saved) {
+    const { continent, country, city, method } = JSON.parse(saved);
+
+    if (continent) {
+      continentSelect.value = continent;
+      fetchCountries(continent).then(() => {
+        if (country) {
+          countrySelect.value = country;
+          fetchCities(country).then(() => {
+            if (city) {
+              citySelect.value = city;
+            }
+          });
+        }
+      });
+    }
+
+    if (method) {
+      timeSelect.value = method;
+    }
+    if (continent && country && city && method) {
+      section3.classList.remove("hidden");
+      countdown.classList.remove("hidden");
+      try {
+        const prayerData = await fetchPrayerTimes(city, country, method);
+        displayPrayerTimes(prayerData);
+        startNextPrayer(prayerData.timings);
+      } catch (error) {
+        console.error("خطأ في جلب أوقات الصلاة بعد اعادة تحميل الصفحة:", error);
+      }
+    }
+  }
+});
