@@ -80,17 +80,36 @@ document.addEventListener("DOMContentLoaded", async () => {
   const saved = loadSelections();
   if (saved) {
     const { continent, country, city, method } = saved;
-    continentSelect.value = continent;
-    const countries = await fetchCountries(continent);
-    countrySelect.value = country;
-    const cities = await fetchCities(country);
-    renderCities(citySelect, cities);
-    citySelect.value = city;
-    timeSelect.value = method;
-    const prayerData = await fetchPrayerTimes(city, country, method);
-    displayPrayerTimes(prayerData);
-    startNextPrayer(prayerData.timings, countdown);
-    section3.classList.remove("hidden");
-    countdown.classList.remove("hidden");
+    
+    if (continent) {
+      continentSelect.value = continent;
+      
+      if (country) {
+        const countries = await fetchCountries(continent);
+        countrySelect.innerHTML = `<option value="">اختر الدولة</option>`;
+        countries.forEach((countryObj) => {
+          const option = document.createElement("option");
+          option.value = countryObj.name.common;
+          option.textContent = countryObj.name.common;
+          countrySelect.appendChild(option);
+        });
+        countrySelect.value = country;
+        
+        if (city) {
+          const cities = await fetchCities(country);
+          renderCities(citySelect, cities);
+          citySelect.value = city;
+          
+          if (method) {
+            timeSelect.value = method;
+            const prayerData = await fetchPrayerTimes(city, country, method);
+            displayPrayerTimes(prayerData);
+            startNextPrayer(prayerData.timings, countdown);
+            section3.classList.remove("hidden");
+            countdown.classList.remove("hidden");
+          }
+        }
+      }
+    }
   }
 });

@@ -9,6 +9,8 @@ export function displayPrayerTimes(prayerData) {
   document.getElementById("isha-time").textContent = formatTime(timings.Isha);
 }
 
+let prayerIntervalId = null; 
+
 export function startNextPrayer(timings, countdownEl) {
   const prayerOrder = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
 
@@ -29,7 +31,13 @@ export function startNextPrayer(timings, countdownEl) {
     return { name: "Fajr", date: tomorrowPrayer, isToday: false };
   }
 
-  setInterval(() => {
+  // Stop any existing interval
+  if (prayerIntervalId) {
+    clearInterval(prayerIntervalId);
+  }
+
+  // Create a new interval
+  prayerIntervalId = setInterval(() => {
     const now = new Date();
     const nextPrayer = findNextPrayer();
     const diff = nextPrayer.date - now;
