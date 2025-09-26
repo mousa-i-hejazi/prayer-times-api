@@ -1,8 +1,9 @@
-import { populateContinents, populateCalculationMethods, renderCities } from "../ui/form.js";
+import { populateContinents, populateCalculationMethods, renderCities, renderCountries } from "../ui/form.js";
 import { fetchCountries, fetchCities } from "../api/countries.js";
 import { fetchPrayerTimes } from "../api/prayerTimes.js";
-import { displayPrayerTimes, startNextPrayer } from "../ui/display.js";
+import { displayPrayerTimes, startNextPrayer, stopNextPrayerCountdown } from "../ui/display.js";
 import { saveSelections, loadSelections } from "../utils/utils.js";
+import { STORAGE_KEYS } from "../config/config.js";
 
 const continentSelect = document.getElementById("continent-select");
 const countrySelect = document.getElementById("country-select");
@@ -19,22 +20,28 @@ populateCalculationMethods(timeSelect);
 continentSelect.addEventListener("change", async (e) => {
   const continent = e.target.value;
   if (continent) {
-    const countries = await fetchCountries(continent);
-    countrySelect.innerHTML = `<option value="">اختر الدولة</option>`;
-    countries.forEach((country) => {
-      const option = document.createElement("option");
-      option.value = country.name.common;
-      option.textContent = country.name.common;
-      countrySelect.appendChild(option);
-    });
+    try {
+      const countries = await fetchCountries(continent);
+      renderCountries(countrySelect, countries);
+    } catch (error) {
+      console.error("Error loading countries:", error);
+      alert(error.message);
+      countrySelect.innerHTML = `<option value="">اختر الدولة</option>`;
+    }
   }
 });
 
 countrySelect.addEventListener("change", async (e) => {
   const country = e.target.value;
   if (country) {
-    const cities = await fetchCities(country);
-    renderCities(citySelect, cities);
+    try {
+      const cities = await fetchCities(country);
+      renderCities(citySelect, cities);
+    } catch (error) {
+      console.error("Error loading cities:", error);
+      alert(error.message);
+      citySelect.innerHTML = `<option value="">اختر المدينة</option>`;
+    }
   }
 });
 
@@ -56,9 +63,11 @@ form.addEventListener("submit", async (e) => {
     displayPrayerTimes(prayerData);
     startNextPrayer(prayerData.timings, countdown);
     section3.classList.remove("hidden");
+    countdown.classList.remove("hidden");
     saveSelections({ continent: continentSelect.value, country, city, method });
   } catch (error) {
-    alert("حدث خطأ في جلب أوقات الصلاة. يرجى المحاولة مرة أخرى.");
+    console.error("Error fetching prayer times:", error);
+    alert(error.message);
   } finally {
     submitBtn.textContent = originalText;
     submitBtn.disabled = false;
@@ -73,43 +82,59 @@ resetBtn.addEventListener("click", (e) => {
   timeSelect.selectedIndex = 0;
   document.querySelectorAll(".time").forEach((el) => (el.textContent = "--:--"));
   countdown.classList.add("hidden");
-  localStorage.removeItem("prayerSelections");
+  section3.classList.add("hidden");
+  stopNextPrayerCountdown();
+  localStorage.removeItem(STORAGE_KEYS.PRAYER_SELECTIONS);
 });
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const saved = loadSelections();
-  if (saved) {
-    const { continent, country, city, method } = saved;
-    
-    if (continent) {
-      continentSelect.value = continent;
+  try {
+    const saved = loadSelections();
+    if (saved) {
+      const { continent, country, city, method } = saved;
       
-      if (country) {
-        const countries = await fetchCountries(continent);
-        countrySelect.innerHTML = `<option value="">اختر الدولة</option>`;
-        countries.forEach((countryObj) => {
-          const option = document.createElement("option");
-          option.value = countryObj.name.common;
-          option.textContent = countryObj.name.common;
-          countrySelect.appendChild(option);
-        });
-        countrySelect.value = country;
+      if (continent) {
+        continentSelect.value = continent;
         
-        if (city) {
-          const cities = await fetchCities(country);
-          renderCities(citySelect, cities);
-          citySelect.value = city;
-          
-          if (method) {
-            timeSelect.value = method;
-            const prayerData = await fetchPrayerTimes(city, country, method);
-            displayPrayerTimes(prayerData);
-            startNextPrayer(prayerData.timings, countdown);
-            section3.classList.remove("hidden");
-            countdown.classList.remove("hidden");
+        if (country) {
+          try {
+            const countries = await fetchCountries(continent);
+            renderCountries(countrySelect, countries);
+            countrySelect.value = country;
+            
+            if (city) {
+              try {
+                const cities = await fetchCities(country);
+                renderCities(citySelect, cities);
+                citySelect.value = city;
+                
+                if (method) {
+                  timeSelect.value = method;
+                  try {
+                    const prayerData = await fetchPrayerTimes(city, country, method);
+                    displayPrayerTimes(prayerData);
+                    startNextPrayer(prayerData.timings, countdown);
+                    section3.classList.remove("hidden");
+                    countdown.classList.remove("hidden");
+                  } catch (error) {
+                    console.error("Error loading saved prayer data:", error);
+                    // Silently fail for auto-loading saved data
+                  }
+                }
+              } catch (error) {
+                console.error("Error loading saved cities:", error);
+                // Silently fail for auto-loading saved data
+              }
+            }
+          } catch (error) {
+            console.error("Error loading saved countries:", error);
+            // Silently fail for auto-loading saved data
           }
         }
       }
     }
+  } catch (error) {
+    console.error("Error loading saved selections:", error);
+    // Silently fail for auto-loading saved data
   }
 });

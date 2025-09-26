@@ -34,7 +34,11 @@ export function startNextPrayer(timings, countdownEl) {
   // Stop any existing interval
   if (prayerIntervalId) {
     clearInterval(prayerIntervalId);
+    prayerIntervalId = null;
   }
+
+  // Show the countdown element
+  countdownEl.classList.remove("hidden");
 
   // Create a new interval
   prayerIntervalId = setInterval(() => {
@@ -51,4 +55,11 @@ export function startNextPrayer(timings, countdownEl) {
 
     countdownEl.textContent = `موعد الصلاة القادمة ${arabicNames[nextPrayer.name]} ${nextPrayerDay} متبقي ${hours} ساعة ${minutes} دقيقة ${seconds} ثانية`;
   }, 1000);
+}
+
+export function stopNextPrayerCountdown() {
+  if (prayerIntervalId) {
+    clearInterval(prayerIntervalId);
+    prayerIntervalId = null;
+  }
 }
