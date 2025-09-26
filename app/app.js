@@ -1,4 +1,4 @@
-import { populateContinents, populateCalculationMethods, renderCities } from "../ui/form.js";
+import { populateContinents, populateCalculationMethods, renderCities, renderCountries } from "../ui/form.js";
 import { fetchCountries, fetchCities } from "../api/countries.js";
 import { fetchPrayerTimes } from "../api/prayerTimes.js";
 import { displayPrayerTimes, startNextPrayer, stopNextPrayerCountdown } from "../ui/display.js";
@@ -22,13 +22,7 @@ continentSelect.addEventListener("change", async (e) => {
   if (continent) {
     try {
       const countries = await fetchCountries(continent);
-      countrySelect.innerHTML = `<option value="">اختر الدولة</option>`;
-      countries.forEach((country) => {
-        const option = document.createElement("option");
-        option.value = country.name.common;
-        option.textContent = country.name.common;
-        countrySelect.appendChild(option);
-      });
+      renderCountries(countrySelect, countries);
     } catch (error) {
       console.error("Error loading countries:", error);
       alert(error.message);
@@ -105,13 +99,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (country) {
           try {
             const countries = await fetchCountries(continent);
-            countrySelect.innerHTML = `<option value="">اختر الدولة</option>`;
-            countries.forEach((countryObj) => {
-              const option = document.createElement("option");
-              option.value = countryObj.name.common;
-              option.textContent = countryObj.name.common;
-              countrySelect.appendChild(option);
-            });
+            renderCountries(countrySelect, countries);
             countrySelect.value = country;
             
             if (city) {
