@@ -1,7 +1,7 @@
 import { populateContinents, populateCalculationMethods, renderCities } from "../ui/form.js";
 import { fetchCountries, fetchCities } from "../api/countries.js";
 import { fetchPrayerTimes } from "../api/prayerTimes.js";
-import { displayPrayerTimes, startNextPrayer } from "../ui/display.js";
+import { displayPrayerTimes, startNextPrayer, stopNextPrayerCountdown } from "../ui/display.js";
 import { saveSelections, loadSelections } from "../utils/utils.js";
 
 const continentSelect = document.getElementById("continent-select");
@@ -56,6 +56,7 @@ form.addEventListener("submit", async (e) => {
     displayPrayerTimes(prayerData);
     startNextPrayer(prayerData.timings, countdown);
     section3.classList.remove("hidden");
+    countdown.classList.remove("hidden");
     saveSelections({ continent: continentSelect.value, country, city, method });
   } catch (error) {
     alert("حدث خطأ في جلب أوقات الصلاة. يرجى المحاولة مرة أخرى.");
@@ -73,6 +74,8 @@ resetBtn.addEventListener("click", (e) => {
   timeSelect.selectedIndex = 0;
   document.querySelectorAll(".time").forEach((el) => (el.textContent = "--:--"));
   countdown.classList.add("hidden");
+  section3.classList.add("hidden");
+  stopNextPrayerCountdown();
   localStorage.removeItem("prayerSelections");
 });
 
