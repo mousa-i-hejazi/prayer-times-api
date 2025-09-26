@@ -1,3 +1,5 @@
+import { STORAGE_KEYS } from "../config/config.js";
+
 // Format 24h to 12h
 export function formatTime(time24) {
   try {
@@ -24,7 +26,7 @@ export function formatTime(time24) {
 export function saveSelections({ continent, country, city, method }) {
   try {
     const selections = { continent, country, city, method };
-    localStorage.setItem("prayerSelections", JSON.stringify(selections));
+    localStorage.setItem(STORAGE_KEYS.PRAYER_SELECTIONS, JSON.stringify(selections));
   } catch (error) {
     console.error("Error saving selections to localStorage:", error);
   }
@@ -33,7 +35,7 @@ export function saveSelections({ continent, country, city, method }) {
 // Load selections
 export function loadSelections() {
   try {
-    const saved = localStorage.getItem("prayerSelections");
+    const saved = localStorage.getItem(STORAGE_KEYS.PRAYER_SELECTIONS);
     return saved ? JSON.parse(saved) : null;
   } catch (error) {
     console.error("Error loading selections from localStorage:", error);

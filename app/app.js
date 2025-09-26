@@ -3,6 +3,7 @@ import { fetchCountries, fetchCities } from "../api/countries.js";
 import { fetchPrayerTimes } from "../api/prayerTimes.js";
 import { displayPrayerTimes, startNextPrayer, stopNextPrayerCountdown } from "../ui/display.js";
 import { saveSelections, loadSelections } from "../utils/utils.js";
+import { STORAGE_KEYS } from "../config/config.js";
 
 const continentSelect = document.getElementById("continent-select");
 const countrySelect = document.getElementById("country-select");
@@ -89,7 +90,7 @@ resetBtn.addEventListener("click", (e) => {
   countdown.classList.add("hidden");
   section3.classList.add("hidden");
   stopNextPrayerCountdown();
-  localStorage.removeItem("prayerSelections");
+  localStorage.removeItem(STORAGE_KEYS.PRAYER_SELECTIONS);
 });
 
 document.addEventListener("DOMContentLoaded", async () => {
